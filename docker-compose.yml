@@ -1,0 +1,33 @@
+
+version: "3"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db
+    volumes:
+      - ../pgdata:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+  redis:
+    image: redis
+    command: ['--requirepass "secret"']
+    expose:
+      - 6379
+
+  web:
+    image: local/ts-node-postgres-auth
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3000:3000"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_SECRET=secret
+      - COOKIE_SECRET=secret$$
+      - NODE_ENV=production
+      - POSTGRES_DB=postgres
