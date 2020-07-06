@@ -1,6 +1,5 @@
 dist
 node_modules
-.env
 my.env
 my_compose
 tests.http
