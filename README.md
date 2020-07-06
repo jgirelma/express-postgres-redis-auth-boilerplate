@@ -5,8 +5,7 @@
 1. Build Dockerfile
 docker build -t local/ts-node-postgres-auth .
 
-2.
-docker-compose up
+2. docker-compose up
 
 ## Dev
 
