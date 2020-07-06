@@ -1,4 +1,4 @@
-# This is an express server which implements a simple authentication api using postgress, express-session, and redis
+# This is an express server which implements a simple authentication api using postgress, express-session, redis, and typescript
 
 ## Production
 
