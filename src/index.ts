@@ -10,7 +10,7 @@ import { createTable } from "./db";
 (async () => {
   //Wait for db and redis to start
   await new Promise((res) =>
-    setTimeout(res, process.env.NODE_ENV === "production" ? 20000 : 500)
+    setTimeout(res, process.env.NODE_ENV === "production" ? 5000 : 500)
   );
 
   const app = express();
