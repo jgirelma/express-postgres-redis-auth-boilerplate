@@ -4,7 +4,7 @@ const isLoggedIn = (req : any) => {
 
 export const loggedInMiddleware = (req : any, _res : any, next : any) => {
   if(!isLoggedIn(req)) {
-    return next(new Error("Not Authorized"))
+    return next(new Error("Not Authorized : Not Logged In"))
   }
 
   next()
@@ -12,7 +12,7 @@ export const loggedInMiddleware = (req : any, _res : any, next : any) => {
 
 export const isNotLoggedInMiddleware = (req : any, _res : any, next : any)  => {
   if(isLoggedIn(req)) {
-    return next(new Error("Not Authorized"))
+    return next(new Error("Not Authorized : Already Logged In"))
   }
 
   next()
