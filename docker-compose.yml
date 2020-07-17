@@ -24,7 +24,7 @@ services:
       - postgres
       - redis
     ports:
-      - "3000:3000"
+      - "4000:3000"
     environment:
       - POSTGRES_PASSWORD=postgres
       - REDIS_SECRET=secret
