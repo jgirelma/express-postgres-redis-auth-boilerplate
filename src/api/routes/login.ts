@@ -10,7 +10,11 @@ import { compare } from "bcryptjs";
 const router = Router();
 
 router.post("/login", isNotLoggedInMiddleware, async (req, res, next) => {
-  loginSchema.validate(req.body);
+  try {
+    await loginSchema.validateAsync(req.body);
+  } catch(err) {
+    return next(new Error(err))
+  }
 
   const { email, password } = req.body;
 
@@ -26,7 +30,7 @@ router.post("/login", isNotLoggedInMiddleware, async (req, res, next) => {
 
   req.session!.userId = user.id;
 
-  res.status(200).json({ message: "logged in" });
+  res.status(200).json({ message: "logged in", user });
 });
 
 export { router as login };
