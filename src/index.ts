@@ -1,11 +1,13 @@
-require("dotenv").config();
+if (process.env.NODE_ENV === "dev")
+  require("dotenv").config();
 import express from "express";
+import https from "https"
 import session from "express-session";
 import connectRedis from "connect-redis";
 import Redis from "ioredis";
 import { errorMiddleware } from "./api/middleware/error";
 import { apiRouter } from "./api";
-import { createTable } from "./db";
+import { createUsersTable, createPostsTable, createCommentsTable, createPostVotesTable, createCommentVotesTable } from "./db";
 
 (async () => {
   //Wait for db and redis to start
@@ -32,7 +34,7 @@ import { createTable } from "./db";
       name: "sid",
       resave: false,
       saveUninitialized: true,
-      cookie: { sameSite: true, secure: false, maxAge: 1000 * 60 * 60 * 7 },
+      cookie: { secure: true, httpOnly: true, maxAge: 1000 * 60 * 60 * 7 },
     })
   );
 
@@ -40,9 +42,22 @@ import { createTable } from "./db";
 
   app.use(errorMiddleware);
 
-  await createTable();
+  try {
+    await createUsersTable();
 
-  app.listen(3000, async () => {
-    console.log("Listining on 3000");
+    await createPostsTable();
+
+    await createCommentsTable();
+
+    await createPostVotesTable();
+
+    await createCommentVotesTable();
+    
+  } catch (err) {
+    console.log(err);
+  }
+
+  https.createServer(app).listen(process.env.PORT || 3000, async () => {
+    console.log(`Listining on ${process.env.PORT || 3000}`);
   });
 })();
